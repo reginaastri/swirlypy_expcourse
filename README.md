@@ -1,4 +1,4 @@
-swirllypy_expcourse
+Swirlypy Experimental Course
 ===================
 
 Experimental courses for swirlypy
