@@ -1,35 +1,126 @@
+- Category: text
+  Output: "This is a lesson in text processing using some genomic data from vibrio cholera."
+
 - Category: load
   Output: "Testing load question"
-  Datafile: "data/sample.txt"
+  Datafile: "data/sample.origin"
   
-- Category: printing
-  Output: "This is an example course for testing Swirlypy."
-
-
-- Category: multiplechoice
-  Output: "What version control system is Swirlypy officially in?"
-  Choices: [git, svn, cvs, mercurial]
-  Answer: git
-  Hint: "The same as the Linux kernel"
-
-- Category: getvalue
-  Output: "What is the square of 256?"
-  Value: 65536
-  Hint: "The square operator is ** in Python"
+- Category: command
+  Output: "I've loaded data for you into a long string named 'vc'. It's part of# a chromosome of vibrio cholera. Type vc now to see what it looks like."
+  Answer: vc
+  Hint: "Enter vc at the Python prompt >>>"
 
 - Category: command
-  Output: "Try running dir() on the integer 1."
-  Answer: dir(1)
-  Hint: "Make sure that you use function(parameter) syntax."
+  Output: "Use the Python command 'len' to see how long the string vc is."
+  Answer: len(vc)
+  Hint: "Enter len(vc) at the Python prompt >>>"
+
+- Category: text
+  Output: "The data originally was 20 lines of 70 characters each. I've put it all in one string, vc, for you."
+
+- Category: command
+  Output: "You can access particular items in the string vc using the Python construct vc[i] which returns the i-th character in the string. Python uses 0-based numbering so the first character is vc[0] and the last is vc[len(vc)-1]. Print the first character in vc now."
+  Answer: vc[0]
+  Hint: "Enter vc[0] at the Python prompt >>>"
+
+- Category: getvalue
+  Output: "You can also use negative numbers as indices in strings. vc[-1] returns the last character of the string, vc[-2] the second last character, etc. Print the third last character in vc now using a negative number as index."
+  Value: 'A'
+  Hint: "Enter vc[-3] at the Python prompt >>>"
+
+- Category: getvalue
+  Output: "You can prove that I didn't lie to you by checking to see if vc[-1] equals the last character in vc, vc[1399]. Use Python's boolean construct vc[-1]==vc[1399] to check for equality."
+  Value: True
+  Hint: "Enter vc[-1]==vc[1399] at the Python prompt >>>"
+
+- Category: text
+  Output: "Python also lets you access pieces or substrings of strings. vc[i:j] returns the i-th character, the (i+1)-st character,..., all the way to the (j-1)-st character. NOTE that the j-th character is NOT returned."
+
+- Category: command
+  Output: "Print out the 10 characters of vc starting with index 100."
+  Answer: vc[100:110]
+  Hint: "Since the character with the index after the colon isn't printed you need to use 110 as that index. Enter vc[100:110] at the Python prompt >>>"
+
+- Category: text
+  Output: "If you don't give an index before the : Python assumes you want to start from the beginning of the string. If you don't give an index after the : Python assumes you want to continue until the end of the string."
+
+- Category: multiplechoice
+  Output: "What will vc[:] print out?"
+  Choices: [the empty string, the full string, the first character, the last character]
+  Answer: the full string
+  Hint: "With no indices the defaults are the beginning and end of the string."
+
+- Category: text
+  Output: "You may have noticed that vc contains only 4 different characters, 'A', 'C', 'T', and 'G'. This is because vc is part of a genome. We'd like to count up how many times each character occurs in vc."
 
 - Category: newvariable
-  Output: "Assign x=10, for use in a subsequent question."
-  Variables: {'x':10}
-  Hint: "Enter x=10."
+  Output: "We'll do this in a simple way first then demonstrate for you Python's greatness with a faster way later. First, make a new variable ctrA and set it equal to 0."
+  Variables: {'ctrA':0}
+  Hint: "Enter ctrA=0."
 
 - Category: newvariable
-  Output: "The correct answer to this question is x = 2*x. However, for testing purposes, first enter x=3*x. 
-    Enter the correct answer on a subsequent try. The value of x should be reset to 10 after incorrect entries."
-  Variables: {'x':20}
-  Hint: "Now enter the correct answer, x=2*x"
+  Output: "Now we'll write a 3 line program to count the number of times the character A appears in the string vc.\nThe first line is the for loop,\nfor i in vc:\n    the second line tests if i equals 'A'\n         and the third line increments ctrA if the condition is true."
+  Variables: {'ctrA':371}
+  Hint: "for i in vc:\n    if i=='A':\n        ctrA += 1\n."
 
+- Category: command
+  Output: "Now see what ctrA is."
+  Answer: ctrA
+  Hint: "Enter ctrA at the Python prompt >>>"
+
+- Category: text
+  Output: "We could repeat this process for the other three characters but that's a little tedious. It's also very inefficient, since we'd have to go through vc 4 times (once for each letter) instead of just once, tallying the characters as we went along."
+
+- Category: text
+  Output: "To do precisely this kind of problem Python provides a cool kind of list, a dictionary, which allows you to index elements with items that aren't integers. If we use characters as indices into the dictionary, then each indexed place can hold the count of how many times the index has occurred."
+
+- Category: newvariable
+  Output: "Use the construct 'd = dict()' to declare a dictionary named d."
+  Variables: {'d':{}}
+  Hint: "Enter d = dict() at the Python prompt >>>"
+
+- Category: newvalue
+  Output: "Let's do another short program (5 lines) using the dictionary d. As before, the first line is a for loop:\nfor i in vc: \nThe second line checks if i isn't already in the dictionary using Python's not in construct.\n\tIf it isn't: d[i] is set to 1, \n\telse: it's incremented."
+  Value: {'d':{'A' : 371, 'C' : 318, 'T' : 375, 'G' : 336} }
+  Hint: "for i in vc:\n    if i not in d:\n        d[i]=1    else:        d[i]+=1"
+
+- Category: command
+  Output: "Now see what the dictionary d looks like."
+  Answer: d
+  Hint: "Enter d at the Python prompt >>>"
+
+- Category: getvalue
+  Output: "Calculate the sum of the elements of d to see if they add up to 1400, the length of vc. Remember you can use expressions d['A']+d['T']...  or you can type in the numbers you just saw ... or you can mix the two, expressions and numbers."
+  Value: 1400
+  Hint: "Enter d['A']+d['C']+d['G']+d['T']"
+
+- Category: text
+  Output: "Now for a quick review."
+
+- Category: getvalue
+  Output: "What is the 700th entry of vc?"
+  Value: 'T'
+  Hint: "Enter vc[699] at the Python prompt."
+
+- Category: multiplechoice
+  Output: "What will vc[-1:-1] print out?"
+  Choices: [the empty string, the full string, the first character, the last character]
+  Answer: the empty string
+  Hint: "Recall that the item with the index after the colon is NOT printed, so the statement is saying 'print everything from the last character on but don't print the last character.' Nothing can be printed."
+
+- Category: multiplechoice
+  Output: "If x is the string 'abcde', what is x[1:2]?"
+  Choices: ['ab', 'bc', 'b', 'bcde']
+  Answer: 'b'
+  Hint: "Recall that Python is 0-based indexing, so x[1] is the second character. The item with the index after the colon is NOT printed, so the statement is saying 'print the second character'."
+
+- Category: multiplechoice
+  Output: "If x is the string 'abcde', what is x[:2]?"
+  Choices: ['ab', 'bc', 'b', 'bcde']
+  Answer: 'ab'
+  Hint: "Without an index before the : tells Python to start from the beginning of the string. The item with the index after the colon is NOT printed, so the statement is saying 'print the first 2 characters (indices 0 and 1)'."
+
+- Category: command
+  Output: "What expression prints out the 10 characters of vc starting at index 551?"
+  Answer: vc[551:561]
+  Hint: "Enter vc[551:561] at the Python prompt >>>"
